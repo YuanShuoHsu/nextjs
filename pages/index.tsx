@@ -3,10 +3,16 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
-
+import { useRouter } from "next/router";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const router = useRouter();
+
+  const btn_click = () => {
+    router.push({ pathname: "/news/[id]", query: { id: "001" } });
+  };
+
   return (
     <>
       <Head>
@@ -18,6 +24,21 @@ export default function Home() {
       <h1>Next.js</h1>
       <hr />
       <Link href={"/about"}>About</Link>
+      <hr />
+      <Link href={{ pathname: "news/[id]", query: { id: "001" } }}>
+        新聞001
+      </Link>
+      <Link href={{ pathname: "news/[id]", query: { id: "002" } }}>
+        新聞002
+      </Link>
+      <Link href={{ pathname: "news/[id]", query: { id: "003" } }}>
+        新聞003
+      </Link>
+      <hr />
+      <button className="btn btn-success" onClick={btn_click}>
+        新聞001
+      </button>
+      <hr />
       <div
         className="btn-group"
         role="group"
