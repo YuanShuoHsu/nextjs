@@ -1,4 +1,5 @@
 import React, { useState, MouseEvent } from "react";
+import Link from "next/link";
 
 export default function About() {
   const [message, setMessage] = useState<string>("");
@@ -18,6 +19,7 @@ export default function About() {
     <div>
       <h1>About</h1>
       <hr />
+      <Link href={"/"}>Home</Link>
       <div>
         <button className="btn btn-success" onClick={(e) => btn_click(e)}>
           數據取得
