@@ -5,8 +5,17 @@ import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 const inter = Inter({ subsets: ["latin"] });
+import { GetStaticPropsContext } from "next";
 
-export default function Home() {
+interface Props {
+  current: string;
+
+  // datalist: { name: string; stars: number }[];
+}
+
+export default function Home(props: Props) {
+  const { current } = props;
+
   const router = useRouter();
 
   const btn_click = () => {
@@ -22,6 +31,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Next.js</h1>
+      <hr />
+      <div className="fs-1 p-3">現在的時間是：{current}</div>
+      {/* <div className="fs-1 p-3">
+        <ul>
+          {datalist.map((item) => (
+            <li key={item.name}>
+              {item.name}:<small className="text-danger">{item.stars}</small>
+            </li>
+          ))}
+        </ul>
+      </div> */}
       <hr />
       <Link href={"/about"}>About</Link>
       <hr />
@@ -64,3 +84,45 @@ export default function Home() {
     </>
   );
 }
+
+export async function getStaticProps(context: GetStaticPropsContext) {
+  console.log("getStaticProps is running...");
+  const date = new Date();
+
+  var h = date.getHours();
+  var m = date.getMinutes();
+  var s = date.getSeconds();
+
+  const current = h + ":" + m + ":" + s;
+  return {
+    props: {
+      current,
+    },
+    revalidate: 10,
+  };
+}
+
+// export async function getStaticProps(context: GetStaticPropsContext) {
+//   console.log("getStaticProps is running...");
+//   let res = await fetch("https://api.github.com/repos/facebook/react");
+//   let json = await res.json();
+//   let stars_react = json.stargazers_count;
+
+//   res = await fetch("https://api.github.com/repos/vuejs/vue");
+//   json = await res.json();
+//   let stars_vue = json.stargazers_count;
+
+//   res = await fetch("https://api.github.com/repos/angular/angular");
+//   json = await res.json();
+//   let stars_angular = json.stargazers_count;
+
+//   return {
+//     props: {
+//       datalist: [
+//         { name: "React", stars: stars_react },
+//         { name: "Vue", stars: stars_vue },
+//         { name: "Angular", stars: stars_angular },
+//       ],
+//     },
+//   };
+// }
