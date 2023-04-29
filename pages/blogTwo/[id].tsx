@@ -25,7 +25,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   console.log("/blog/[id].js -> getStaticProps is running...");
 
   const { params } = context;
-  const blogid = params?.id as string;
+  const blogid = params?.id;
 
   return {
     props: {
