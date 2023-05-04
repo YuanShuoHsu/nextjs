@@ -2,9 +2,11 @@ import Head from "next/head";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 
+import { KomaWebContextProvider } from "@/store";
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <KomaWebContextProvider>
       <Head>
         <link
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
@@ -14,6 +16,6 @@ export default function App({ Component, pageProps }: AppProps) {
         />
       </Head>
       <Component {...pageProps} />
-    </>
+    </KomaWebContextProvider>
   );
 }

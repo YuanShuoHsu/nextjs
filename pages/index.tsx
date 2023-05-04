@@ -1,26 +1,44 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import styles from "../styles/Home.module.css";
+// import Image from "next/image";
+// import { Inter } from "next/font/google";
+// import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 import { GetStaticPropsContext } from "next";
+import React, { useContext, useState } from "react";
+import KomaWebContext from "@/store";
 
-interface Props {
-  current: string;
+// interface Props {
+//   current: string;
 
-  // datalist: { name: string; stars: number }[];
-}
+//   // datalist: { name: string; stars: number }[];
+// }
 
-export default function Home(props: Props) {
-  const { current } = props;
+export default function Home() {
+  // const { current } = props;
 
   const router = useRouter();
 
-  const btn_click = () => {
-    router.push({ pathname: "/news/[id]", query: { id: "001" } });
+  const komWebCtx = useContext(KomaWebContext);
+
+  const [username, setUsername] = useState("Koma");
+
+  const txtUsername_onchange = (event: React.ChangeEvent<HTMLInputElement>) => {
+   console.log(event.target.value)
+    setUsername(event.target.value);
   };
+
+  const btn_login_onclick = () => {
+    komWebCtx.login(username);
+    router.push({
+      pathname: "/admin",
+    });
+  };
+
+  // const btn_click = () => {
+  //   router.push({ pathname: "/news/[id]", query: { id: "001" } });
+  // };
 
   return (
     <>
@@ -30,9 +48,34 @@ export default function Home(props: Props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className="fs-1 p-3">
+        <h1>主題頁</h1>
+        <hr />
+        狀態：{komWebCtx && komWebCtx.isLogin.toString()}
+        <hr />
+        <div className="mb-3 col-6">
+          <label htmlFor="txtUsername" className="form-label">
+            用戶名：
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="txtUsername"
+            value={username}
+            onChange={txtUsername_onchange}
+          />
+        </div>
+        <button
+          className="btn btn-success btn-lg"
+          onClick={() => btn_login_onclick()}
+        >
+          登入
+        </button>
+      </div>
+      <hr />
       <h1>Next.js</h1>
       <hr />
-      <div className="fs-1 p-3">現在的時間是：{current}</div>
+      {/* <div className="fs-1 p-3">現在的時間是：{current}</div> */}
       {/* <div className="fs-1 p-3">
         <ul>
           {datalist.map((item) => (
@@ -55,9 +98,9 @@ export default function Home(props: Props) {
         新聞003
       </Link>
       <hr />
-      <button className="btn btn-success" onClick={btn_click}>
+      {/* <button className="btn btn-success" onClick={btn_click}>
         新聞001
-      </button>
+      </button> */}
       <hr />
       <div
         className="btn-group"
